@@ -44,7 +44,7 @@ class Database:
                 session.add(obj)
             await session.commit()
 
-    async def orm_select(self, query, commit=False):
+    async def orm_select(self, query) -> ChunkedIteratorResult:
         async with self.session() as session:
             result: ChunkedIteratorResult = await session.execute(query)
             return result
