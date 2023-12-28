@@ -9,7 +9,7 @@ class Poller:
     def __init__(self, store: Store):
         self.store = store
         self.is_running = False
-        self.poll_task: Optional[Task] = None
+        self.poll_task: Task | None = None
 
     async def start(self):
         self.is_running = True

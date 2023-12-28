@@ -21,14 +21,14 @@ class QuizAccessor(BaseAccessor):
         await self.app.database.orm_add(theme)
         return Theme(id=theme.id, title=theme.title)
 
-    async def get_theme_by_title(self, title: str) -> Optional[Theme]:
+    async def get_theme_by_title(self, title: str) -> Theme | None:
         query = select(ThemeModel).where(ThemeModel.title == title)
         response = await self.app.database.orm_select(query=query)
         theme = response.scalar()
         if theme:
             return Theme(id=theme.id, title=theme.title)
 
-    async def get_theme_by_id(self, id_: int) -> Optional[Theme]:
+    async def get_theme_by_id(self, id_: int) -> Theme | None:
         query = select(ThemeModel).where(ThemeModel.id == id_)
         response = await self.app.database.orm_select(query=query)
         theme = response.scalar()
@@ -88,7 +88,7 @@ class QuizAccessor(BaseAccessor):
             answers=answers,
         )
 
-    async def list_questions(self, theme_id: Optional[int] = None) -> list[Question]:
+    async def list_questions(self, theme_id: int | None = None) -> list[Question]:
         query = select(QuestionModel)
         if theme_id:
             if await self.get_theme_by_id(theme_id):
